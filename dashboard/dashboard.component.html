@@ -1,0 +1,487 @@
+<div class="main-db gap-top">
+  <div class="container-fluid mt-2">
+    <div class="row">
+      <div class="col-12 col-sm-6">
+        <h1>{{ title }}</h1>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div *ngIf="userRole == 'ROLE_ADMIN_ORGANIZATION'">
+        <div class="card">
+          <div class="card-header font-weight-bold row">
+            <h5 class="col-6">LIVE</h5>
+
+            <div class="col-6">
+              <a
+                type="button"
+                class="mr-3 mt-2 float-right"
+                (click)="
+                  setExportData(
+                    liveChartReportHeader,
+                    liveSectionExportData,
+                    liveSectionBarChart,
+                    'LIVE'
+                  )
+                "
+                data-toggle="modal"
+                data-target="#selectExportType"
+              >
+                <i
+                  class="fas fa-download mr-1"
+                  aria-hidden="true"
+                  matTooltip="Export Report"
+                ></i>
+              </a>
+            </div>
+          </div>
+
+          <div class="card-body" #liveSectionCanvas>
+            <div class="row">
+              <div class="col-6 row">
+                <div class="col-6 pr-0">
+                  <app-live-session-count
+                    [heading]="'Shifts'"
+                    [count]="todayShifts"
+                    [iconClass]="'fas fa-exchange-alt fa-4x'"
+                  ></app-live-session-count>
+                </div>
+                <div class="col-6 pr-0">
+                  <app-live-session-count
+                    [heading]="'Scans'"
+                    [count]="todayScans"
+                    [isImage]="true"
+                  ></app-live-session-count>
+                </div>
+                <div class="col-4">
+                  <app-live-session-count
+                    [heading]="'Not Matched'"
+                    [count]="todayNotMatched"
+                    [iconClass]="'far fa-times-circle fa-3x'"
+                  ></app-live-session-count>
+                </div>
+                <div class="col-4 pl-0">
+                  <app-live-session-count
+                    [heading]="'Target Detected'"
+                    [count]="todayHitlist"
+                    [iconClass]="'far fa-check-circle fa-3x'"
+                  ></app-live-session-count>
+                </div>
+                <div class="col-4 p-0">
+                  <app-live-session-count
+                    [heading]="'Potential Detected'"
+                    [count]="todayPotentialTargetDetected"
+                    [iconClass]="'far fa-check-circle fa-3x'"
+                  ></app-live-session-count>
+                </div>
+              </div>
+              <div class="col-6">
+                <app-live-session-bar-chart></app-live-session-bar-chart>
+              </div>
+              <!-- <div class="col-6">
+                <div class="card">
+                  <h5 class="card-header h5">Bar Chart</h5>
+                  <div class="card-body row">
+                    <div style="display: block" class="mx-auto">
+                      <canvas id="liveSectionBarChart">
+                        {{ liveSectionBarChart }}
+                      </canvas>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+            </div>
+          </div>
+        </div>
+        <div class="row mb-4">
+          <div class="col-6">
+            <div class="col-4 float-left form-group p-1 mt-2">
+              <select
+                class="form-control form-control-sm input-custom"
+                aria-label="Select PEO"
+                (change)="onChangePeoId($event.target.value)"
+              >
+                <option value="">Select PEO</option>
+                <option
+                  *ngFor="let peoUser of peoList"
+                  [value]="peoUser.userId"
+                >
+                  {{ peoUser.firstName + " " + peoUser.lastName }}
+                </option>
+              </select>
+            </div>
+            <div class="col-2 float-left form-group p-1 mt-2">
+              <input
+                class="btn btn-sm btn-success w-100"
+                type="button"
+                value="Search"
+                (click)="searchByPeo()"
+              />
+            </div>
+          </div>
+          <div class="col-6">
+            <mat-tab-group
+              [selectedIndex]="selectedTabIndex"
+              (selectedTabChange)="onTabChanged($event)"
+            >
+              <mat-tab label="Day"></mat-tab>
+              <mat-tab label="Week"></mat-tab>
+              <mat-tab label="Month"></mat-tab>
+              <mat-tab label="Custom"></mat-tab>
+            </mat-tab-group>
+            <div *ngIf="selectedTabIndex == 3" class="p-1 col-4">
+              <input
+                readonly
+                type="text"
+                matInput
+                placeholder="Select Date Range"
+                class="form-control form-control-sm input-custom pl-2 mt-0"
+                ngxDaterangepickerMd
+                [locale]="{ format: 'YYYY-MM-DD' }"
+                [(ngModel)]="selectedDateCustom"
+                startKey="start"
+                endKey="end"
+                [showCustomRangeLabel]="true"
+                [alwaysShowCalendars]="true"
+                [linkedCalendars]="true"
+                name="daterange"
+                (change)="onChangeDateRange($event)"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <h5 class="card-header font-weight-bold">Repo Wanted</h5>
+          <div class="card-body">
+            <div class="row font-weight-bold">
+              <div class="col-6" #violationTrendsCanvas>
+                <div class="row">
+                  <h6 class="text-right col-7">Violation Trends</h6>
+                  <div class="col-5">
+                    <a
+                      type="button"
+                      class="mr-3 mt-2 float-right"
+                      (click)="
+                        setExportData(
+                          violationTrendReportHeader,
+                          violationLineChartData,
+                          violationTrendsCanvas,
+                          'Violation Trends'
+                        )
+                      "
+                      data-toggle="modal"
+                      data-target="#selectExportType"
+                    >
+                      <i
+                        class="fas fa-download mr-1"
+                        aria-hidden="true"
+                        matTooltip="Export Report"
+                      ></i>
+                    </a>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="">
+                    <div style="display: block">
+                      <canvas id="violationSectionLineChart">{{
+                        chart
+                      }}</canvas>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-6" #violationInsightsCanvas>
+                <div class="row">
+                  <h6 class="text-right col-7">Violation Insights</h6>
+                  <div class="col-5">
+                    <a
+                      type="button"
+                      class="mr-3 mt-2 float-right"
+                      (click)="
+                        setExportData(
+                          violationInsightReportHeader,
+                          targetDetected,
+                          chart,
+                          'Violation Insights'
+                        )
+                      "
+                      data-toggle="modal"
+                      data-target="#selectExportType"
+                    >
+                      <i
+                        class="fas fa-download mr-1"
+                        aria-hidden="true"
+                        matTooltip="Export Report"
+                      ></i>
+                    </a>
+                  </div>
+                </div>
+                <div style="margin-left: 50px; margin-top: 50px">
+                  <div class="row">
+                    <div class="col-6 mt-4">
+                      {{ "Target Detected : " + targetDetected }}
+                    </div>
+                    <div class="col-6 mt-4 text-right">
+                      {{ targetDetectedProgressBar }}
+                    </div>
+                  </div>
+                  <div class="progress">
+                    <div
+                      class="progress-bar bg-warning"
+                      role="progressbar"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      [ngStyle]="{ width: targetDetectedProgressBar }"
+                    ></div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-6 mt-4">
+                      {{ "Potential Detected : " + potentialTargetDetected }}
+                    </div>
+                    <div class="col-6 mt-4 text-right">
+                      {{ potentialTargetDetectedProgressBar }}
+                    </div>
+                  </div>
+                  <div class="progress">
+                    <div
+                      class="progress-bar bg-warning"
+                      role="progressbar"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      [ngStyle]="{ width: potentialTargetDetectedProgressBar }"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <h5 class="card-header font-weight-bold">Patrols Shifts</h5>
+          <div class="card-body">
+            <div class="row font-weight-bold">
+              <div class="col-12" #scannedViolationByPeoCanvas>
+                <div class="row">
+                  <h6 class="text-right col-7">
+                    Scanned Violations By Patrol Officers
+                  </h6>
+                  <div class="col-5">
+                    <a
+                      type="button"
+                      class="mr-3 mt-2 float-right"
+                      (click)="
+                        setExportData(
+                          peoViolationReportHeader,
+                          violationByPeo,
+                          scannedViolationByPeoCanvas,
+                          'Scanned Violations By PEO'
+                        )
+                      "
+                      data-toggle="modal"
+                      data-target="#selectExportType"
+                    >
+                      <i
+                        class="fas fa-download mr-1"
+                        aria-hidden="true"
+                        matTooltip="Export Report"
+                      ></i>
+                    </a>
+                  </div>
+                </div>
+                <div style="margin-bottom: 30px; margin-top: 50px">
+                  <div
+                    *ngFor="
+                      let peoData of violationByPeo | slice : 0 : 3;
+                      let i = index
+                    "
+                  >
+                    <div class="row">
+                      <div class="col-6 mt-4">
+                        {{ peoData.peoName }}
+                      </div>
+                      <div class="col-6 mt-4 text-right">
+                        {{ peoData.violationPercentage }}
+                      </div>
+                    </div>
+                    <div class="progress">
+                      <div
+                        class="progress-bar"
+                        style="background-color: goldenrod"
+                        role="progressbar"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        [ngStyle]="{ width: peoData.violationPercentage }"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card" #vehicleLocationMapCanvas>
+          <div class="card-header font-weight-bold row">
+            <h5 class="col-6">Vehicle Location Map</h5>
+
+            <div class="col-6">
+              <a
+                type="button"
+                class="mr-3 mt-2 float-right"
+                (click)="
+                  setExportData(
+                    peoLastLocationReportHeader,
+                    peoLastLocationData,
+                    canvas,
+                    'Vehicle Location Map'
+                  )
+                "
+                data-toggle="modal"
+                data-target="#selectExportType"
+              >
+                <i
+                  class="fas fa-download mr-1"
+                  aria-hidden="true"
+                  matTooltip="Export Report"
+                ></i>
+              </a>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="row">
+              <div class="col-3 mt-4 cardBodySidebar">
+                <mat-tab-group
+                  class="geofenceTabs"
+                  (selectedTabChange)="onPeoMapTabChanged($event)"
+                  (click)="onPeoMapTabClicked()"
+                >
+                  <mat-tab label="All"></mat-tab>
+                  <mat-tab
+                    *ngFor="let peoData of peoLastLocationData"
+                    label="{{ peoData.peoName }}"
+                  ></mat-tab>
+                </mat-tab-group>
+              </div>
+
+              <div class="col-9">
+                <agm-map
+                  class="col-10"
+                  [zoom]="10"
+                  [latitude]="selectedPeoLocation?.latitude"
+                  [longitude]="selectedPeoLocation?.longitude"
+                >
+                  <agm-marker
+                    *ngIf="this.selectedPeoIndex != 0"
+                    [iconUrl]="markerIcon"
+                    [latitude]="selectedPeoLocation.latitude"
+                    [longitude]="selectedPeoLocation.longitude"
+                  >
+                    <agm-info-window
+                      [isOpen]="infoOpen"
+                      [latitude]="selectedPeoLocation.latitude"
+                      [longitude]="selectedPeoLocation.longitude"
+                    >
+                      <div class="card">
+                        <div class="card-body">
+                          <h6 class="text-center">
+                            {{ selectedPeoLocation.peoName }}
+                          </h6>
+                          <h6 class="text-center">
+                            {{
+                              selectedPeoLocation.createdDate
+                                | date : "HH:mm:ss y-MM-dd"
+                            }}
+                          </h6>
+                          <h6 class="text-center">
+                            {{ selectedPeoLocation.geofenceName }}
+                          </h6>
+                        </div>
+                      </div>
+                    </agm-info-window>
+                  </agm-marker>
+
+                  <span *ngIf="this.selectedPeoIndex == 0">
+                    <agm-marker
+                      *ngFor="let marker of peoLastLocationData; let i = index"
+                      [iconUrl]="markerIcon"
+                      [latitude]="marker.latitude"
+                      [longitude]="marker.longitude"
+                    >
+                      <agm-info-window
+                        [isOpen]="infoOpen"
+                        [latitude]="marker.latitude"
+                        [longitude]="marker.longitude"
+                      >
+                        <div class="card">
+                          <div class="card-body">
+                            <h6 class="text-center">{{ marker.peoName }}</h6>
+                            <h6 class="text-center">
+                              {{
+                                marker.createdDate | date : "HH:mm:ss y-MM-dd"
+                              }}
+                            </h6>
+                            <h6 class="text-center">
+                              {{ marker.geofenceName }}
+                            </h6>
+                          </div>
+                        </div>
+                      </agm-info-window>
+                    </agm-marker>
+                  </span>
+                </agm-map>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="selectExportType"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="selectExportTypeLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title orange-text" id="selectExportTypeLabel">
+          Select Export Form
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body text-center">
+        <button
+          class="btn btn-success mr-2"
+          (click)="exportExcelAll()"
+          data-dismiss="modal"
+        >
+          Export CSV
+        </button>
+        <button
+          class="btn btn-success mr-2"
+          (click)="exportPdfAll()"
+          data-dismiss="modal"
+        >
+          Export PDF
+        </button>
+        <!-- <button class="btn btn-success" (click)="exportPNG()" data-dismiss="modal">Export PNG</button> -->
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,90 @@
+<mat-dialog-content class="">
+    <h3 class="mb-3">
+        <i class="fas fa-check-circle mr-1"></i>All Actions
+    </h3>
+
+    <div class="row">
+        <div class="col-xl-12">
+            <table class="table">
+                <tr>
+                    <td>Session ID</td>
+                    <td>{{allActionObject.sessionId}}</td>
+                </tr>
+                <tr>
+                    <td>User Name</td>
+                    <td>{{allActionObject.userName}}</td>
+                </tr>
+                <tr>
+                    <td>Camera Identifier</td>
+                    <td>{{allActionObject.cameraIdentifier}}</td>
+                </tr>
+                <tr>
+                    <td>Event Type</td>
+                    <td>{{allActionObject.eventType}}</td>
+                </tr>
+                <tr>
+                    <td>License Number</td>
+                    <td>{{allActionObject.licenceNumber}}</td>
+                </tr>
+                <tr>
+                    <td>Country</td>
+                    <td>{{allActionObject.country}}</td>
+                </tr>
+                <tr>
+                    <td>State</td>
+                    <td>{{allActionObject.state}}</td>
+                </tr>
+                <tr>
+                    <td>Date</td>
+                    <td>{{allActionObject.date}}</td>
+                </tr>
+                <tr>
+                    <td>Time</td>
+                    <td>{{allActionObject.time}}</td>
+                </tr>
+                <tr>
+                    <td>Action Taken</td>
+                    <td>{{allActionObject.actionType}}</td>
+                </tr>
+                <tr>
+                    <td>Action Status</td>
+                    <td>{{allActionObject.actionStatus}}</td>
+                </tr>
+                <tr>
+                    <td>Comment</td>
+                    <td>{{allActionObject.comment}}</td>
+                </tr>
+                <tr>
+                    <td>Ticket Number</td>
+                    <td>{{allActionObject.ticketNumber}}</td>
+                </tr>
+                <tr>
+                    <td>White List Match Status</td>
+                    <td>{{allActionObject.whiteListMatchStatus}}</td>
+                </tr>
+                <tr>
+                    <td>Partial Match License Number</td>
+                    <td>{{allActionObject.partialMatchLicenceNumber}}</td>
+                </tr>
+                <tr>
+                    <td>Partial Match Percentage</td>
+                    <td>{{allActionObject.partialMatchPercentage}}</td>
+                </tr>
+                <tr>
+                    <td>Created Date</td>
+                    <td>{{allActionObject.createdDate}}</td>
+                </tr>
+                <!-- <tr *ngIf="pastActionObject.image1 !== null">
+                    <td colspan="2" align="center"><img src="{{pastActionObject.image1}}"></td>
+                </tr> -->
+               
+            </table>
+        </div>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button class="btn btn-light float-right" (click)="closeDialog()">
+        <i class="fas fa-times mr-1"></i> Close
+    </button>
+</mat-dialog-actions>

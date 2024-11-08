@@ -1,0 +1,259 @@
+<div class="main-db gap-top">
+  <div class="container-fluid mt-2">
+    <form class="row" [formGroup]="form">
+      <div class="col-12">
+
+        <h1>{{title}}</h1>
+      </div>
+      <div class="col-sm-1 col-6 pr-0 mt-2 mt-sm-0">
+        <input type="text" class="form-control form-control-sm input-custom" formControlName="numberPlate"
+          placeholder="License Plate" minlength="4" maxlength="8" aria-label="License Plate" />
+      </div>
+      <div class="col-sm-1 col-6 pr-sm-0 pr-3 mt-2 mt-sm-0">
+        <input type="text" class="form-control form-control-sm input-custom" formControlName="vehicleOwner"
+          placeholder="Vehicle Owner" aria-label="Vehicle Owner" />
+      </div>
+      <div class="col-sm-1 col-6 pr-sm-0 pr-3 mt-2 mt-sm-0">
+        <input type="text" class="form-control form-control-sm input-custom" formControlName="jobTitle"
+          placeholder="Job" aria-label="Job" />
+      </div>
+      <div class="col-sm-1 col-6 pr-0 mt-2 mt-sm-0">
+        <input type="text" class="form-control form-control-sm input-custom" formControlName="state"
+          placeholder="State" aria-label="State" />
+      </div>
+      <div class="col-sm-1 col-6 pr-sm-0 pr-3 mt-2 mt-sm-0">
+        <input type="text" class="form-control form-control-sm input-custom" formControlName="country"
+          placeholder="Country" aria-label="Country" />
+      </div>
+      <div class="col-sm-1 col-6 pr-0 mt-2 mt-sm-0">
+        <input type="text" class="form-control form-control-sm input-custom" formControlName="vin" placeholder="VIN" aria-label="VIN" />
+      </div>
+      <div class="col-sm-2 col-6 pr-sm-0 pr-3 mt-2 mt-sm-0">
+        <input type="text" class="form-control form-control-sm input-custom" formControlName="address"
+          placeholder="Address" aria-label="Address" />
+      </div>
+
+      <div class="col-sm-2 col-6 pr-0 mt-2 mt-sm-0 d-none">
+        <select formControlName="whiteList" aria-label="White List" class="form-control form-control-sm"
+          [ngClass]="{'text-gray' : !form.value.whiteList}">
+          <option class="text-white" [selected]="true" value="true">White List</option>
+        </select>
+      </div>
+
+      <div class="col-sm-4 col-12 ml-auto mt-2 mt-sm-0">
+        <button [disabled]="!form.valid" [hidden]="updateMode" class="btn btn-sm btn-success float-left" aria-label="add"
+          (click)="addLprWhiteList()">
+          <i class="fas fa-plus mr-1"></i> Add
+        </button>
+
+        <button [disabled]="!form.valid" [hidden]="!updateMode" class="btn btn-sm btn-success float-left"
+          (click)="updateLprWhiteList()">
+          <i class="fa fa-pencil mr-1"></i> Update
+        </button>
+        <button class="btn btn-sm btn-success float-left ml-2" (click)="resetForm()">
+          <i class="fa fa-refresh mr-1"></i> Clear
+        </button>
+        <button class="btn btn-sm btn-success float-left ml-2" (click)="fileUploaderDialog()">
+          <i class="fas fa-save mr-1"></i> Upload CSV
+        </button>
+        <!-- <button
+          class="btn btn-sm btn-danger ml-2"
+          (click)="deleteAllRegisteredVehicle()"
+        >
+          <i class="fa fa-refresh mr-1"></i> Delete All
+        </button> -->
+        <button type="button" *ngIf="data.length > 0; else disableDeleteAll" class="btn btn-sm btn-danger ml-2"
+          data-toggle="modal" data-target="#deletePrompt">
+          <i class="fas fa-trash"></i> Delete All
+        </button>
+        <ng-template #disableDeleteAll>
+          <button type="button" disabled class="btn btn-sm btn-danger ml-2">
+            <i class="fas fa-trash"></i> Delete All
+          </button>
+        </ng-template>
+      </div>
+    </form>
+  </div>
+  <!-- Button trigger modal -->
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="deletePrompt" tabindex="-1" role="dialog" aria-labelledby="deletePromptLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title orange-text" id="deletePromptLabel">Delete All</h5>
+          <button type="button" class="close" aria-label="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to delete all License Plate?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-danger" (click)="deleteAllRegisteredVehicle()"
+            data-dismiss="modal">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid mt-4">
+    <div class="row">
+      <div class="col-xl-12 col-xl-5">
+        <div class="">
+          <input type="text" class="form-control form-control-sm input-custom" (keyup)="applyFilter($event)"
+            placeholder="Search" aria-label="search" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid mt-2">
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="db-block table-responsive" style="height: auto !important">
+          <i class="fa fa-database mr-2" aria-hidden="true"></i>
+          <span>{{title}}</span>
+          <a type="button" class="float-right" (click)="excelSheetDownload()">
+            <i class="fa fa-download mr-1" aria-hidden="true"></i> Export CSV
+          </a>
+          <a type="button" class="float-right mr-2" (click)="sampleCSV()">
+            <i class="fa fa-download mr-1" aria-hidden="true"></i> Sample CSV
+          </a>
+          <!-- <a
+              type="button"
+              class="float-right mr-3"
+              (click)="excelSheetDownload()"
+            >
+              <i class="fa fa-file-excel-o mr-1" aria-hidden="true"></i> Export Excel
+            </a> -->
+
+          <table mat-table [dataSource]="dataSource" class="gridData mt-2" matSort>
+            <ng-container matColumnDef="numberPlate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                License Plate
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.numberPlate }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="vehicleOwner">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Vehicle Owner
+
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.vehicleOwner }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="jobTitle">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Job
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.jobTitle }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="state">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                State
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.state }}
+              </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="country">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Country</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.country }}
+              </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="vin">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>VIN</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.vin }}
+              </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="address">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Address</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.address }}
+              </td>
+            </ng-container>
+
+
+
+            <!-- <ng-container matColumnDef="whiteList">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                White List
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <span *ngIf="element.whiteList; else blackList"> Yes</span>
+                <ng-template #blackList>No</ng-template>
+              </td>
+            </ng-container> -->
+
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>Action</th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-icon-button matTooltip="Click to Edit" class="iconbutton text-warning" aria-label="edit">
+                  <mat-icon aria-label="Edit" (click)="setUpdateMode(element)">edit</mat-icon>
+                </button>
+
+                <!--
+                <button mat-icon-button matTooltip="Click to Delete"class="iconbutton text-danger"             >
+                  <mat-icon aria-label="Delete" (click)="deleteLprWhitelist(element)" >delete</mat-icon >
+                </button>
+ -->
+
+
+                <button mat-icon-button matTooltip="Click to Delete" (click)="getTempId(element)"
+                  class="iconbutton text-danger" data-toggle="modal" data-target="#deletePrompt2">
+                  <mat-icon aria-label="Delete">delete</mat-icon>
+                </button>
+
+                <!-- Modal -->
+
+                <div class="modal fade" id="deletePrompt2" tabindex="-1" role="dialog"
+                  aria-labelledby="deletePromptLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title orange-text" id="deletePromptLabel">Delete License Plate </h5>
+                        <button type="button" class="close" aria-label="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        Are you sure you want to delete License Plate?
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger" (click)="deleteLprWhitelist(tempId)"
+                          data-dismiss="modal">Confirm</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+          <mat-paginator [pageSizeOptions]="[10,25]"></mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

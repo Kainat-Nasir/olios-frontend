@@ -1,0 +1,85 @@
+<div class="loginpagefix" *ngIf="tokenStorage.getToken() == null; else Conurelogo;">
+<div><img src="assets/images/bg.png" class="bg" alt="Background Image" /></div>
+
+<div class="login-form">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <h1 class="text-center mb-4 mt-2">
+      <img src="assets/images/olios_logo.png" class="logo" width="120" alt="Olios Logo" />
+    </h1>
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="fas fa-user-tie"></i></span>
+      </div>
+      <input id="email" type="email" autocomplete="on" class="form-control input-custom" aria-label="email" formControlName="username" placeholder="Username"
+        required />
+    </div>
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+      </div>
+      <input id="password" type="password" class="form-control input-custom" aria-label="password" formControlName="password"
+        placeholder="Password" required />
+    </div>
+
+    <div class="form-group">
+      <button id="loginBtn" type="submit" class="btn orange btn-block" style="font-weight: 700;">
+        Log in
+      </button>
+    </div>
+    <div class="clearfix">
+      <label class="pull-left checkbox-inline noselect" style="cursor:pointer"><input style="cursor:pointer" type="checkbox" /> Remember me</label>
+      <a type="button" data-toggle="modal" data-target="#modal-default" class="float-right noselect" style="cursor:pointer">Forgot Password</a>
+      <!-- <a (click)="forgetUsername()" class="float-right mr-3">Forget Username</a> -->
+    </div>
+  </form>
+  <footer>
+    <p class="text-center">© {{year}} Conure OLIOS | All Rights Reserved.</p>
+  </footer>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal-default">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Forgot Password</h4>
+        <button type="button" class="close" aria-label="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="forgotform" (ngSubmit)="sendEmail()">
+          <input type="email" autocomplete="on" class="form-control form-control-lg input-custom mb-4" placeholder="Your email address"
+            formControlName="emailAddress" id="emailAddress" aria-label="Your email address" />
+          <div class="error" *ngIf="
+              forgotform.controls['emailAddress'].hasError('required') &&
+              forgotform.controls['emailAddress'].touched">
+            <h6 class="text-danger mt-1">Field is required</h6>
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn btn-danger" data-dismiss="modal" (click)="sendEmail()" [disabled]="!forgotform.valid">
+              <i class="fas fa-redo-alt mr-1"></i> Reset password
+            </button>
+          </div>
+        </form>
+      </div>
+      <!-- <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div> -->
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+</div>
+
+<ng-template #Conurelogo>
+  <div class="col-12 text-center gap-top">
+    <img class="noselect mt-4 img-responsive" src="assets/images/olios_logo.png" alt="Olios Logo"/>
+  </div>
+</ng-template>

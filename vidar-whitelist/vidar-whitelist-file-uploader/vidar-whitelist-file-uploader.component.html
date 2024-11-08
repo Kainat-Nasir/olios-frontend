@@ -1,0 +1,45 @@
+<h4 mat-dialog-title><i class="fas fa-plus mr-2"></i> Upload CSV</h4>
+
+<mat-dialog-content class="mat-typography container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="progress form-group" *ngIf="progress >= 0">
+                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar"
+                        [style.width.%]="progress"></div>
+                </div>
+            </div>
+        </div>
+
+        <form class="row" [formGroup]="form">
+          <div class="col-sm-8 col-6 pr-0 mt-2 mt-sm-0">
+            <select class="form-control form-control-sm input-custom" aria-label="Select Camera Ip" formControlName="cameraIp">
+              <option value="" disabled="true">Select Camera Ip</option>
+              <option *ngFor="let camObject of camerasData" [value]="camObject.cameraStreamPath">{{camObject.cameraName}} - {{camObject.cameraStreamPath}}</option>
+            </select>
+          </div>
+        </form>
+
+        <div class="row">
+            <div class="col-4 mt-2">
+                <button class="btn btn-success" (click)="chooseFile()">Choose File</button>
+                <span
+                    style="visibility: hidden; position: absolute; overflow: hidden; width: 0px; height:0px;border:none;margin:0; padding:0">
+                    <input class="mt-4" id="myInput" #myInput type="file" name="file" (change)="fileProgress($event)" />
+                </span>
+            </div>
+            <div class="col-8">
+                <p class="mt-2" style="text-align: left;font-size: medium;">
+                    <b>Name: <span style="color: white;">{{fileName}}</span>
+                    <br>Size: <span style="color:rgb(255, 255, 255);">{{fileSize/1024 | number:'.01' }} KB</span></b>
+                </p>
+            </div>
+        </div>
+    <!-- </form> -->
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button [disabled]="!form.valid" type="button" class="btn btn-success btn-s mr-2" (click)="readFile()"
+        > Submit </button>
+    <button class="btn btn-light  float-right" aria-label="cancle" (click)="closeDialog()">
+        <i class="fas fa-times mr-1"></i> Cancel</button>
+</mat-dialog-actions>

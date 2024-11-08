@@ -1,0 +1,17 @@
+<div class="card cardBorderRadius">
+  <h5 class="card-header h5">{{ heading }}</h5>
+  <div class="card-body row">
+    <div class="col-6">
+      <img *ngIf="isImage"
+        src="assets/images/scan_icon.png" alt="Scan Icon"
+        alt=""
+        class="filter"
+        style="height: 60px; width: 60px"
+      />
+      <i *ngIf="!isImage" [ngClass]="iconClass"></i>
+    </div>
+    <div class="col-6 p-0">
+      <h3 class="centreText font-weight-bold">{{ count }}</h3>
+    </div>
+  </div>
+</div>

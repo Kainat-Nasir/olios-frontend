@@ -1,0 +1,84 @@
+.logo {
+  margin-bottom: 0px;
+  height: 50px;
+}
+
+.oliosLogo{
+    width: 250px;
+    position: absolute;
+    left: calc(50% - 120px / 2);
+    top: 3px;
+}
+
+.color-name {
+  h4 {
+    float: right;
+    padding: 0px 8px;
+  }
+  .cc {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 4px;
+  }
+}
+
+.title-content {
+  & h1,
+  & h2 {
+    padding-top: 10px;
+  }
+}
+.logo-client {
+  background: #26293b;
+  padding: 8px 40px;
+  position: fixed;
+  top: 0px;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  z-index: 6;
+  & img {
+    width: 100px;
+  }
+}
+
+.dropdown-item {
+  color: #ccc;
+}
+.dropdown-menu {
+  background-color: #212434;
+}
+
+.dropdown-item:focus, .dropdown-item:hover {
+  background-color: #666;
+}
+
+.brand-image{
+  margin-top: 0;
+  margin-left: 2px;
+  max-height: 30px;
+}
+
+.navigation {
+  & a {
+    padding: 0px 10px 5px;
+    font-size: 18px;
+    float: right;
+  }
+  & a:hover {
+    color: #ebb21b;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .logo-client {
+    display: none;
+  }
+  .logo{
+    height: 70px;
+  }
+  .oliosLogo{
+    left: calc(50% - 55px / 2);
+}
+}

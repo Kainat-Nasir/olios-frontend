@@ -1,0 +1,129 @@
+<div class="main-db gap-top">
+
+    <div class="container-fluid mt-2">
+        <form class="row" [formGroup]="form">
+          <div class="col-12">
+            <h1>{{title}}</h1>
+          </div>
+            <div class="col-sm-3 col-6 pr-0">
+                <div class=" ">
+                    <input type="text" class="form-control form-control-sm input-custom" formControlName="groupName"
+                        placeholder="Group Name" aria-label="group name" />
+                </div>
+            </div>
+            <div class="col-sm-3 col-6 pr-0">
+                <div class=" ">
+                    <input type="text" class="form-control form-control-sm input-custom"
+                        formControlName="groupDescription" aria-label="description" placeholder="description" />
+                </div>
+            </div>
+
+            <div class="col-xl-6 mt-2 mt-sm-0">
+                <button [disabled]="!form.valid" [hidden]="updateMode" class="btn btn-sm btn-success mr-2" aria-label="add"
+                    (click)="addGroup()"> <i class="fas fa-plus mr-1"></i> Add
+                </button>
+                <button [disabled]="!form.valid" [hidden]="!updateMode" class="btn btn-sm btn-success mr-2"
+                (click)="updateGroup()"> <i class="fa fa-pencil mr-1"></i>Update
+                </button>
+                <button class="btn btn-sm btn-success mr-2" (click)="resetForm()">
+                    <i class="fa fa-refresh mr-1"></i> Clear
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="container-fluid mt-2">
+        <hr >
+        <div class="row">
+            <div class="col-12 mb-2">
+                <div class=" ">
+                  <input type="text" class="form-control form-control-sm input-custom" (keyup)="applyFilter($event)"
+                    placeholder="Search" aria-label="Search" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid mt-2">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="db-block" style="height: auto !important;">
+                        <i class="fa fa-database mr-2" aria-hidden="true"></i>
+                        <span>{{title}}</span>
+
+                        <a
+                        type="button"
+                        class="float-right mr-3"
+                        (click)="excelSheetDownload()"
+                      >
+                        <i class="fa fa-file-excel mr-1" aria-hidden="true"></i> Export CSV
+                      </a>
+                    <table mat-table [dataSource]="dataSource" class="gridData mt-2" matSort>
+                        <ng-container matColumnDef="groupName">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Group Name
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{ element.groupName }}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="groupDescription">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Description
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{ element.groupDescription }}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="actions">
+                            <th mat-header-cell *matHeaderCellDef>Action</th>
+                            <td mat-cell *matCellDef="let element">
+                                <button mat-icon-button matTooltip="Click to Edit" class="iconbutton text-warning" aria-label="edit">
+                                    <mat-icon (click)="setUpdateMode(element)">edit</mat-icon>
+                                </button>
+<!--
+                                <button mat-icon-button matTooltip="Click to Delete" class="iconbutton text-danger">
+                                    <mat-icon aria-label="Delete" (click)="deleteGroup(element)">delete</mat-icon>
+                                </button> -->
+
+
+                                <button mat-icon-button  matTooltip="Click to Delete" (click)="getTempId(element)" class="iconbutton text-danger" data-toggle="modal" data-target="#deletePrompt">
+                                    <mat-icon>delete</mat-icon>
+                                  </button>
+
+                          <!-- Modal -->
+
+                          <div class="modal fade" id="deletePrompt" tabindex="-1" role="dialog" aria-labelledby="deletePromptLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title orange-text" id="deletePromptLabel">Delete LPR Camera Group </h5>
+                                  <button type="button" class="close" aria-label="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  Are you sure you want to delete LPR Camera Group?
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                  <button type="button" class="btn btn-danger" (click)="deleteGroup(tempId)" data-dismiss="modal">Confirm</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+
+
+
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                    </table>
+
+                    <mat-paginator [pageSizeOptions]="[10, 25]">
+                    </mat-paginator>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

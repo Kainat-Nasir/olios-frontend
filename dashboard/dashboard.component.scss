@@ -1,0 +1,33 @@
+#liveSectionBarChart {
+    width: 100% !important;
+    height: 300px !important;
+}
+
+::ng-deep .geofenceTabs .mat-tab-group {
+  display: flex;
+  flex-direction: row;
+}
+
+::ng-deep .geofenceTabs .mat-tab-labels {
+  display: flex;
+  flex-direction: column;
+}
+
+::ng-deep .geofenceTabs .mat-tab-label.mat-tab-label-active {
+  border-right: 2px solid;
+}
+
+::ng-deep .geofenceTabs .mat-ink-bar {
+  display: none;
+}
+
+::ng-deep .mat-tab-label.mat-tab-label-active {
+  background-color: goldenrod;
+  opacity: 1;
+  color: white;
+}
+
+agm-map{
+  height: 400px;
+  width: 100%;
+}

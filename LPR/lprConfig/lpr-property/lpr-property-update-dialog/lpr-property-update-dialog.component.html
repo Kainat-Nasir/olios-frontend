@@ -1,0 +1,43 @@
+<h4 mat-dialog-title><i class="fas fa-plus mr-1"></i> Update Property</h4>
+
+<mat-dialog-content class="mat-typography">
+  <div>
+    <form class="example-form input-content" [formGroup]="form">
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" aria-label="name" />
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="address" aria-label="address" />
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Contact</mat-label>
+        <input matInput formControlName="contact" aria-label="contact" />
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Latitude</mat-label>
+        <input matInput formControlName="latitude" aria-label="latitude" />
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Longitude</mat-label>
+        <input matInput formControlName="longitude" aria-label="longitude" />
+      </mat-form-field>
+
+    </form>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button class="btn btn-success btn-sm float-right mr-2" type="submit" aria-label="update" [disabled]="!form.valid" (click)="updatePropertyData()">
+    <i class="fas fa-plus mr-1"></i> Update</button>
+
+  <button class="btn btn-light btn-sm float-right" (click)="closeDialog()">
+    <i class="fas fa-times mr-1"></i> Cancel
+  </button>
+</mat-dialog-actions>

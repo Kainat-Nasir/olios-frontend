@@ -1,0 +1,156 @@
+<mat-dialog-content class="">
+  <h3 class="mb-3"><i class="fas fa-check-circle mr-1"></i> Past Actions</h3>
+
+  <div class="row">
+    <div class="col-xl-12">
+      <table class="table">
+        <tr>
+          <td>Payload ID</td>
+          <td>
+            <span *ngIf="pastActionObject.payloadId; else notAvailable">{{
+              pastActionObject.payloadId
+            }}</span>
+            <ng-template #notAvailable>N/A</ng-template>
+          </td>
+          <!-- <td>{{pastActionObject.sessionId}}</td> -->
+        </tr>
+        <tr>
+          <td>Camera Identifier</td>
+          <td>
+            <span
+              *ngIf="pastActionObject.cameraIdentifier; else notAvailable"
+              >{{ pastActionObject.cameraIdentifier }}</span
+            >
+            <ng-template #notAvailable>N/A</ng-template>
+          </td>
+          <!-- <td>{{pastActionObject.cameraIdentifier}}</td> -->
+        </tr>
+        <tr>
+          <td>Event Type</td>
+          <td>
+            <span *ngIf="pastActionObject.eventType; else notAvailable">{{
+              pastActionObject.eventType
+            }}</span>
+            <ng-template #notAvailable>N/A</ng-template>
+          </td>
+          <!-- <td>{{pastActionObject.eventType}}</td> -->
+        </tr>
+        <tr>
+          <td>License Number</td>
+          <td>
+            <span *ngIf="pastActionObject.licenceNumber; else notAvailable">{{
+              pastActionObject.licenceNumber
+            }}</span>
+            <ng-template #notAvailable>N/A</ng-template>
+          </td>
+          <!-- <td>{{pastActionObject.licenceNumber}}</td> -->
+        </tr>
+        <!-- <tr>
+                    <td>Country</td>
+                    <td>
+                        <span *ngIf="pastActionObject.country; else notAvailable">{{pastActionObject.country}}</span>
+                        <ng-template #notAvailable>N/A</ng-template>
+                    </td>
+                    <!-- <td>{{pastActionObject.country}}</td> -->
+        <!-- </tr> -->
+        <!-- <tr>
+                    <td>State</td>
+                    <td>
+                        <span *ngIf="pastActionObject.state; else notAvailable">{{pastActionObject.state}}</span>
+                        <ng-template #notAvailable>N/A</ng-template>
+                    </td> -->
+        <!-- <td>{{pastActionObject.state}}</td> -->
+        <!-- </tr> -->
+        <tr>
+          <td>Date</td>
+          <td>
+            <span *ngIf="pastActionObject.date; else notAvailable">{{
+              pastActionObject.date
+            }}</span>
+            <ng-template #notAvailable>N/A</ng-template>
+          </td>
+          <!-- <td>{{pastActionObject.date}}</td> -->
+        </tr>
+        <tr>
+          <td>Time</td>
+          <td>
+            <span *ngIf="pastActionObject.time; else notAvailable">{{
+              pastActionObject.time
+            }}</span>
+            <ng-template #notAvailable>N/A</ng-template>
+          </td>
+          <!-- <td>{{pastActionObject.time}}</td> -->
+        </tr>
+        <tr>
+          <td>Action Taken</td>
+          <td>
+            <span *ngIf="pastActionObject.actionType; else notAvailable">{{
+              pastActionObject.actionType
+            }}</span>
+            <ng-template #notAvailable>N/A</ng-template>
+          </td>
+          <!-- <td>{{pastActionObject.actionType}}</td> -->
+        </tr>
+        <tr>
+          <td>Action Status</td>
+          <td>
+            <span *ngIf="pastActionObject.actionStatus; else notAvailable">{{
+              pastActionObject.actionStatus
+            }}</span>
+            <ng-template #notAvailable>N/A</ng-template>
+          </td>
+          <!-- <td>{{pastActionObject.actionStatus}}</td> -->
+        </tr>
+        <tr>
+          <td>Comment</td>
+          <td>
+            <span *ngIf="pastActionObject.comment; else notAvailable">{{
+              pastActionObject.comment
+            }}</span>
+            <ng-template #notAvailable>N/A</ng-template>
+          </td>
+          <!-- <td>{{pastActionObject.comment}}</td> -->
+        </tr>
+        <!-- <tr>
+                    <td>Ticket Number</td>
+                    <td>
+                        <span *ngIf="pastActionObject.ticketNumber; else notAvailable">{{pastActionObject.ticketNumber}}</span>
+                        <ng-template #notAvailable>N/A</ng-template>
+                    </td>
+                    <!-- <td>{{pastActionObject.ticketNumber}}</td> -->
+        <!-- </tr> -->
+        <tr>
+          <td>User Name</td>
+          <td>
+            <span *ngIf="pastActionObject.userName; else notAvailable">{{
+              pastActionObject.userName
+            }}</span>
+            <ng-template #notAvailable>N/A</ng-template>
+          </td>
+          <!-- <td>{{pastActionObject.ticketNumber}}</td> -->
+        </tr>
+        <tr>
+          <td>Created Date</td>
+          <td>
+            <span *ngIf="pastActionObject.createdDate; else notAvailable">{{
+              pastActionObject.createdDate
+            }}</span>
+            <ng-template #notAvailable>N/A</ng-template>
+          </td>
+          <!-- <td>{{pastActionObject.createdDate}}</td> -->
+        </tr>
+        <tr *ngIf="pastActionObject.image1 !== null">
+          <td colspan="2" align="center">
+            <img src="{{ pastActionObject.image1 }}" alt="License Plate Number" />
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button class="btn btn-light float-right" (click)="closeDialog()">
+    <i class="fas fa-times mr-1"></i> Close
+  </button>
+</mat-dialog-actions>

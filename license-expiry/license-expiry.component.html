@@ -1,0 +1,30 @@
+<div class="main-db gap-top">
+  <div class="container-fluid mt-2">
+    <div class="row">
+      <div class="col-12 col-sm-10">
+        <h1>{{title}}</h1>
+      </div>
+      <div class="col-12 col-sm-2 mb-2">
+        <button class="btn btn-sm btn-success float-right" (click)="addExpiryDialog()">
+          <i class="fas fa-plus mr-1"></i> Add License Expiry
+        </button>
+      </div>
+      <div class="col-12">
+        <div class="">
+          <app-search (searchTerm)="applyFilter($event)"></app-search>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 mt-2">
+        <div class="table-responsive db-block" style="height: auto !important;">
+          <i class="fa fa-database mr-2" aria-hidden="true"></i>
+          <span>{{title}}</span>
+          <app-license-table [dataSource]="dataSource"></app-license-table>
+
+        </div>
+        <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>

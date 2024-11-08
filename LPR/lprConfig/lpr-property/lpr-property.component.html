@@ -1,0 +1,157 @@
+<div class="main-db gap-top">
+
+    <div class="container-fluid mt-2">
+      <form>
+        <div class="row">
+          <div class="col-12 mb-2">
+            <div class="input-group input-group-sm">
+              <input type="text" class="form-control input-custom" aria-label="search" (keyup)="applyFilter($event)" placeholder="Search"/>
+            </div>
+          </div>
+          <div class="col-12 mb-2">
+            <button class="btn btn-success btn-sm float-right" (click)="addPropertyDialog()">
+              <i class="fas fa-plus mr-1"></i>
+              Add Property
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="db-block" style="height: auto !important;">
+            <h4>
+              <i class="fa fa-database mr-2" aria-hidden="true"></i>
+              <span> PROPERTY VIEW</span>
+
+              <a
+              type="button"
+              class="float-right mr-3"
+              (click)="excelSheetDownload()"
+            >
+              <i class="fa fa-file-excel-o mr-1" aria-hidden="true"></i> Export CSV
+            </a>
+            </h4>
+            <div class="mt-4">
+              <div class="table-responsive">
+                <div class="mat-elevation-z0">
+                  <table mat-table [dataSource]="dataSource" class="gridData" matSort>
+
+                    <ng-container matColumnDef="name">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Name
+                      </th>
+                      <td mat-cell *matCellDef="let element">
+                        {{ element.name }}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="organizationName">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Organization Name
+                      </th>
+                      <td mat-cell *matCellDef="let element">
+                        {{ element.organizationName }}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="address">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Address
+                      </th>
+                      <td mat-cell *matCellDef="let element">
+                        {{ element.address }}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="contact">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Contact No#
+                      </th>
+                      <td mat-cell *matCellDef="let element">
+                        {{ element.contact }}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="latitude">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Latitude
+                      </th>
+                      <td mat-cell *matCellDef="let element">
+                        {{ element.latitude }}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="longitude">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Longitude
+                      </th>
+                      <td mat-cell *matCellDef="let element">
+                        {{ element.longitude }}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actions">
+                      <th mat-header-cell *matHeaderCellDef>Action</th>
+                      <td mat-cell *matCellDef="let element">
+                        <button class="btn btn-sm btn-success mr-2" (click)="propertyDetail(element)" >
+                          <i class="fas fa-plus mr-1"></i>View Sub-Property Details
+                        </button>
+
+                        <button mat-icon-button matTooltip="Click to Edit" class="iconbutton text-warning"
+                        (click)="updatePropertyDialog(element)" aria-label="edit">
+                          <mat-icon aria-label="Edit">edit</mat-icon>
+                        </button>
+
+                         <button mat-icon-button  matTooltip="Click to Delete" (click)="getTempId(element)" class="iconbutton text-danger" data-toggle="modal" data-target="#deletePrompt">
+                          <mat-icon aria-label="Delete">delete</mat-icon>
+                        </button>
+
+                <!-- Modal -->
+
+                <div class="modal fade" id="deletePrompt" tabindex="-1" role="dialog" aria-labelledby="deletePromptLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title orange-text" id="deletePromptLabel">Delete Property </h5>
+                        <button type="button" class="close" aria-label="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        Are you sure you want to delete Property?
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger" (click)="deleteProperty(tempId)" data-dismiss="modal">Confirm</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                  </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-3">
+
+            <div class="col-xl-8">
+              <mat-paginator [pageSizeOptions]="[10, 25]"></mat-paginator>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
